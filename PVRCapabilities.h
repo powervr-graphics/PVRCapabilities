@@ -109,6 +109,7 @@ struct SCapabilities {
 		else if(std::string::npos != gpu_model.find("GX6240")) {
 			tmp_capabilities.generation = PVR_SERIES6XT;
 			tmp_capabilities.num_clusters = 2.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
 		}
 		else{
 			return false;
