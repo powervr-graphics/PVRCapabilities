@@ -69,19 +69,23 @@ struct SCapabilities {
 		else if(std::string::npos != gpu_model.find("G6050")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 0.5f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
 		}
 		else if(std::string::npos != gpu_model.find("G6060")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 0.5f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
 			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
 		}
 		else if(std::string::npos != gpu_model.find("G6100")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 1.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
 		}
 		else if(std::string::npos != gpu_model.find("G6110")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 1.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
 			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
 		}
 		else if(std::string::npos != gpu_model.find("GX6250")) {
