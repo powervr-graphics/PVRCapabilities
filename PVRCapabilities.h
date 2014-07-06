@@ -11,20 +11,20 @@ enum EGPUGeneration {
 	PVR_SERIES_UNKNOWN
 };
 enum ECapabilityFlags {
-	PVR_CAP_FP16                 = 0x00000001, // USC has 16-bit float units
-	PVR_CAP_LOSSLESS_COMPRESSION = 0x00000002, // Lossless PB & framebuffer compression
+	PVR_CAP_FP16                 = (1<<1), // USC has 16-bit float units
+	PVR_CAP_LOSSLESS_COMPRESSION = (1<<2), // Lossless PB & framebuffer compression
 };
 
 struct SCapabilities {
-	EGPUGeneration generation;                 // Series6 variant
-	float num_clusters;                        // Number of USC units
-	unsigned int flags;                        // Capability flags
+	EGPUGeneration generation;             // Series6 variant
+	float num_clusters;                    // Number of USC units
+	unsigned int flags;                    // Capability flags
 	
 	SCapabilities()
 	:
 	generation(PVR_SERIES_UNKNOWN),
 	num_clusters(0.0f),
-	flags(0x00000000)
+	flags(0)
 	{}
 };
 
