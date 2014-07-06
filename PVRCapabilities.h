@@ -1,5 +1,4 @@
-#ifndef __PVR_CAPABILITIES_H__
-#define __PVR_CAPABILITIES_H__
+#pragma once
 
 #include <string>
 
@@ -14,7 +13,6 @@ enum ECapabilityFlags {
 	PVR_CAP_FP16                 = (1<<1), // USC has 16-bit float units
 	PVR_CAP_LOSSLESS_COMPRESSION = (1<<2), // Lossless PB & framebuffer compression
 };
-
 struct SCapabilities {
 	EGPUGeneration generation;             // Series6 variant
 	float num_clusters;                    // Number of USC units
@@ -27,7 +25,6 @@ struct SCapabilities {
 	flags(0)
 	{}
 };
-
 	/*!****************************************************************************
 	 * @function        DetermineCapabilities
 	 * @brief           Conservative estimate of a PowerVR Series6 GPU's capabilities.
@@ -118,5 +115,3 @@ struct SCapabilities {
 		return true;
 	}
 }
-
-#endif // __PVR_CAPABILITIES_H__
