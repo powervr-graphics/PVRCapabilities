@@ -32,7 +32,7 @@ struct SCapabilities {
 	/*!****************************************************************************
 	 * @function        DetermineCapabilities
 	 * @brief           Conservative estimate of a PowerVR Series6 GPU's capabilities.
-	 *                  "Han" and "Hood" handle legacy GL_RENDERER string cases
+	 *                  "Han" and "Hood" cases handle legacy GL_RENDERER string formatting
 	 *
 	 * @param[in]       gpu_model         GL_RENDERER string value
 	 * @param[out]      capabilities      Struct containing GPU capabilities
