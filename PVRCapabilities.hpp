@@ -18,14 +18,14 @@ enum ECapabilityFlags {
 struct SCapabilities {
 	EGPUGeneration generation;             // Series6 variant
 	float num_clusters;                    // Number of USC units
-	float num_usc_pipelines;               // Number of pipelines within each USC
+	unsigned int num_usc_pipelines;        // Number of pipelines within each USC
 	unsigned int flags;                    // Capability flags
 	
 	SCapabilities()
 	:
 	generation(PVR_SERIES_UNKNOWN),
 	num_clusters(0.0f),
-	num_usc_pipelines(16.0f),
+	num_usc_pipelines(16),
 	flags(PVR_CAP_LOSSLESS_GEOMETRY)
 	{}
 };
@@ -74,13 +74,13 @@ struct SCapabilities {
 		else if(std::string::npos != gpu_model.find("G6050")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 0.5f;
-			tmp_capabilities.num_usc_pipelines = 8.0f;
+			tmp_capabilities.num_usc_pipelines = 8;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
 		}
 		else if(std::string::npos != gpu_model.find("G6060")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 0.5f;
-			tmp_capabilities.num_usc_pipelines = 8.0f;
+			tmp_capabilities.num_usc_pipelines = 8;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
 			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
 		}
