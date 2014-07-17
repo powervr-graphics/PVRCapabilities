@@ -11,18 +11,22 @@ enum EGPUGeneration {
 };
 enum ECapabilityFlags {
 	PVR_CAP_FP16                 = (1<<1), // USC has 16-bit float units
-	PVR_CAP_LOSSLESS_COMPRESSION = (1<<2), // Lossless PB & framebuffer compression
+	PVR_CAP_LOSSLESS_FRAMEBUFFER = (1<<2), // Lossless framebuffer compression
+	PVR_CAP_LOSSLESS_GEOMETRY    = (1<<3), // Lossless Parameter Buffer geometry compression
+	PVR_CAP_ASTC                 = (1<<4), // Hardware support for ASTC decompression
 };
 struct SCapabilities {
 	EGPUGeneration generation;             // Series6 variant
 	float num_clusters;                    // Number of USC units
+	float num_usc_pipelines;               // Number of pipelines within each USC
 	unsigned int flags;                    // Capability flags
 	
 	SCapabilities()
 	:
 	generation(PVR_SERIES_UNKNOWN),
 	num_clusters(0.0f),
-	flags(0)
+	num_usc_pipelines(16.0f),
+	flags(PVR_CAP_LOSSLESS_GEOMETRY)
 	{}
 };
 	/*!****************************************************************************
@@ -42,37 +46,43 @@ struct SCapabilities {
 			// NOTE: Han may be a G6230. Assume G6200, as we can't be sure
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 2.0f;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
 		}
 		else if(std::string::npos != gpu_model.find("G6230")) {
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 2.0f;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
 		}
 		else if((std::string::npos != gpu_model.find("G6400"))
 				|| (std::string::npos != gpu_model.find("Hood"))) {
 			// NOTE: Hood may be a G6430. Assume G6400, as we can't be sure
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 4.0f;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
 		}
 		else if(std::string::npos != gpu_model.find("G6430")) {
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 4.0f;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
+		}
+		else if(std::string::npos != gpu_model.find("G6630")) {
+			tmp_capabilities.generation = PVR_SERIES6;
+			tmp_capabilities.num_clusters = 6.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
 		}
 		else if(std::string::npos != gpu_model.find("G6050")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 0.5f;
+			tmp_capabilities.num_usc_pipelines = 8.0f;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
 		}
 		else if(std::string::npos != gpu_model.find("G6060")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 0.5f;
+			tmp_capabilities.num_usc_pipelines = 8.0f;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
 		}
 		else if(std::string::npos != gpu_model.find("G6100")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
@@ -83,30 +93,33 @@ struct SCapabilities {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 1.0f;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
-		}
-		else if(std::string::npos != gpu_model.find("GX6250")) {
-			tmp_capabilities.generation = PVR_SERIES6XT;
-			tmp_capabilities.num_clusters = 2.0f;
-			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
-		}
-		else if(std::string::npos != gpu_model.find("GX6450")) {
-			tmp_capabilities.generation = PVR_SERIES6XT;
-			tmp_capabilities.num_clusters = 4.0f;
-			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
-		}
-		else if(std::string::npos != gpu_model.find("GX6650")) {
-			tmp_capabilities.generation = PVR_SERIES6XT;
-			tmp_capabilities.num_clusters = 6.0f;
-			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_COMPRESSION;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
 		}
 		else if(std::string::npos != gpu_model.find("GX6240")) {
 			tmp_capabilities.generation = PVR_SERIES6XT;
 			tmp_capabilities.num_clusters = 2.0f;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
+		}
+		else if(std::string::npos != gpu_model.find("GX6250")) {
+			tmp_capabilities.generation = PVR_SERIES6XT;
+			tmp_capabilities.num_clusters = 2.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
+			tmp_capabilities.flags |= PVR_CAP_ASTC;
+		}
+		else if(std::string::npos != gpu_model.find("GX6450")) {
+			tmp_capabilities.generation = PVR_SERIES6XT;
+			tmp_capabilities.num_clusters = 4.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
+			tmp_capabilities.flags |= PVR_CAP_ASTC;
+		}
+		else if(std::string::npos != gpu_model.find("GX6650")) {
+			tmp_capabilities.generation = PVR_SERIES6XT;
+			tmp_capabilities.num_clusters = 6.0f;
+			tmp_capabilities.flags |= PVR_CAP_FP16;
+			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
+			tmp_capabilities.flags |= PVR_CAP_ASTC;
 		}
 		else{
 			return false;
