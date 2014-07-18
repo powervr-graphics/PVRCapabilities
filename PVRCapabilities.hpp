@@ -13,6 +13,10 @@ enum ECapabilityFlags {
 	PVR_CAP_FP16                 = (1<<1), // USC has 16-bit float units
 	PVR_CAP_LOSSLESS_FRAMEBUFFER = (1<<2), // Lossless framebuffer compression
 	PVR_CAP_LOSSLESS_GEOMETRY    = (1<<3), // Lossless Parameter Buffer geometry compression
+	/* NOTE
+	You must query for ASTC driver support with GL_OES_texture_compression_astc, 
+	GL_KHR_texture_compression_astc_hdr or GL_KHR_texture_compression_astc_ldr
+	*/
 	PVR_CAP_ASTC                 = (1<<4), // Hardware support for ASTC decompression
 };
 struct SCapabilities {
@@ -54,7 +58,7 @@ struct SCapabilities {
 			tmp_capabilities.flags |= PVR_CAP_LOSSLESS_FRAMEBUFFER;
 		}
 		else if((std::string::npos != gpu_model.find("G6400"))
-				|| (std::string::npos != gpu_model.find("Hood"))) {
+			|| (std::string::npos != gpu_model.find("Hood"))) {
 			// NOTE: Hood may be a G6430. Assume G6400, as we can't be sure
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 4.0f;
