@@ -11,14 +11,7 @@ enum EGPUGeneration {
 };
 enum ECapabilityFlags {
 	PVR_CAP_FP16                 = (1<<1), // USC has 16-bit float units
-	PVR_CAP_PVRIC                = (1<<2), // Lossless framebuffer compression (PVRIC)
-	PVR_CAP_PVRIC2               = (1<<3), // Lossless framebuffer compression v2 (PVRIC2)
-	PVR_CAP_PVRGC                = (1<<4), // Lossless Parameter Buffer geometry compression
-	/* NOTE: You must query for ASTC driver support with GL_OES_texture_compression_astc, 
-	GL_KHR_texture_compression_astc_hdr or GL_KHR_texture_compression_astc_ldr
-	*/
-	PVR_CAP_ASTC                 = (1<<5), // Hardware support for ASTC decompression
-	PVR_CAP_RAYTRACING           = (1<<6), // Contains hardware for accelerated ray tracing
+	PVR_CAP_RAYTRACING           = (1<<2), // Contains hardware for accelerated ray tracing
 };
 struct SCapabilities {
 	EGPUGeneration generation;             // Series6 variant
@@ -31,7 +24,7 @@ struct SCapabilities {
 	generation(PVR_SERIES_UNKNOWN),
 	num_clusters(0),
 	num_usc_pipelines(16),
-	flags(PVR_CAP_PVRGC)
+	flags(0)
 	{}
 };
 	/*!****************************************************************************
@@ -57,7 +50,6 @@ struct SCapabilities {
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 2;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC;
 		}
 		else if((std::string::npos != gpu_model.find("G6400"))
 			|| (std::string::npos != gpu_model.find("Hood"))) {
@@ -69,13 +61,11 @@ struct SCapabilities {
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 4;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC;
 		}
 		else if(std::string::npos != gpu_model.find("G6630")) {
 			tmp_capabilities.generation = PVR_SERIES6;
 			tmp_capabilities.num_clusters = 6;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC;
 		}
 		// PowerVR Series6XE
 		else if(std::string::npos != gpu_model.find("G6050")) {
@@ -89,7 +79,6 @@ struct SCapabilities {
 			tmp_capabilities.num_clusters = 0;
 			tmp_capabilities.num_usc_pipelines = 8;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC2;
 		}
 		else if(std::string::npos != gpu_model.find("G6100")) {
 			tmp_capabilities.generation = PVR_SERIES6XE;
@@ -100,7 +89,6 @@ struct SCapabilities {
 			tmp_capabilities.generation = PVR_SERIES6XE;
 			tmp_capabilities.num_clusters = 1;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC2;
 		}
 		// PowerVR Series6XT
 		else if(std::string::npos != gpu_model.find("GX6240")) {
@@ -112,30 +100,22 @@ struct SCapabilities {
 			tmp_capabilities.generation = PVR_SERIES6XT;
 			tmp_capabilities.num_clusters = 2;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC2;
-			tmp_capabilities.flags |= PVR_CAP_ASTC;
 		}
 		else if(std::string::npos != gpu_model.find("GX6450")) {
 			tmp_capabilities.generation = PVR_SERIES6XT;
 			tmp_capabilities.num_clusters = 4;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC2;
-			tmp_capabilities.flags |= PVR_CAP_ASTC;
 		}
 		else if(std::string::npos != gpu_model.find("GX6650")) {
 			tmp_capabilities.generation = PVR_SERIES6XT;
 			tmp_capabilities.num_clusters = 6;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC2;
-			tmp_capabilities.flags |= PVR_CAP_ASTC;
 		}
 		// PowerVR Wizard
 		else if(std::string::npos != gpu_model.find("GR6500")) {
 			tmp_capabilities.generation = PVR_SERIES6XT;
 			tmp_capabilities.num_clusters = 4;
 			tmp_capabilities.flags |= PVR_CAP_FP16;
-			tmp_capabilities.flags |= PVR_CAP_PVRIC2;
-			tmp_capabilities.flags |= PVR_CAP_ASTC;
 			tmp_capabilities.flags |= PVR_CAP_RAYTRACING;
 		}
 		else{
