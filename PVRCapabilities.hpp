@@ -26,25 +26,25 @@ struct SCapabilities {
 	SCapabilities()
 	:
     family_(Family::UNKNOWN),
-	fp16_ops_(0),
-	fp32_ops_(0),
-	bilinear_samples_(0),
-	flags_(0)
+    fp16_ops_(0),
+    fp32_ops_(0),
+    bilinear_samples_(0),
+    flags_(0)
 	{}
 
 	SCapabilities(
-		Family family,
-		unsigned int fp16_ops,
-		unsigned int fp32_ops,
-		unsigned int bilinear_samples,
-		unsigned int flags
+    Family family,
+    unsigned int fp16_ops,
+    unsigned int fp32_ops,
+    unsigned int bilinear_samples,
+    unsigned int flags
 	):
-		family_(family),
-		fp16_ops_(fp16_ops),
-		fp32_ops_(fp32_ops),
-		bilinear_samples_(bilinear_samples),
-		flags_(flags)
-		{}
+    family_(family),
+    fp16_ops_(fp16_ops),
+    fp32_ops_(fp32_ops),
+    bilinear_samples_(bilinear_samples),
+    flags_(flags)
+    {}
 };
 	/*!****************************************************************************
 	 * @function        DetermineGPUCapabilities
