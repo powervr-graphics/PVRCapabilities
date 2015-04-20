@@ -68,15 +68,15 @@ struct SCapabilities {
 		static const std::unordered_map<std::string, SCapabilities> gpu_models {
 			// { "GPU model", { Family, Ops(FP16), Ops(FP32), Bilinear samples, Flags}},
 			// PowerVR Series5
-			{ "SGX530", { Family::SERIES5,   8,    8,    1,  0        } },
-			{ "SGX531", { Family::SERIES5,   8,    8,    1,  0        } },
-			{ "SGX535", { Family::SERIES5,   8,    8,    2,  0        } },
-			{ "SGX540", { Family::SERIES5,   16,   16,   2,  0        } },
-			{ "SGX545", { Family::SERIES5,   16,   16,   2,  0        } },
+			{ "SGX 530", { Family::SERIES5,   8,    8,    1,  0        } },
+			{ "SGX 531", { Family::SERIES5,   8,    8,    1,  0        } },
+			{ "SGX 535", { Family::SERIES5,   8,    8,    2,  0        } },
+			{ "SGX 540", { Family::SERIES5,   16,   16,   2,  0        } },
+			{ "SGX 545", { Family::SERIES5,   16,   16,   2,  0        } },
 			// PowerVR Series5XT
-			{ "SGX543", { Family::SERIES5XT, 32,   32,   2,  0        } },
-			{ "SGX544", { Family::SERIES5XT, 32,   32,   2,  0        } },
-			{ "SGX554", { Family::SERIES5XT, 64,   64,   2,  0        } },
+			{ "SGX 543", { Family::SERIES5XT, 32,   32,   2,  0        } },
+			{ "SGX 544", { Family::SERIES5XT, 32,   32,   2,  0        } },
+			{ "SGX 554", { Family::SERIES5XT, 64,   64,   2,  0        } },
 			// PowerVR Series6
 			{ "G6200",  { Family::SERIES6,   128,  128,  4,  0        } },
 			{ "Han",    { Family::SERIES6,   128,  128,  4,  0        } }, // May be G6200 or G6230
